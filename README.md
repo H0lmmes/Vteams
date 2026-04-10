@@ -10,6 +10,15 @@ User enumeration via Microsoft Teams endpoints.
 
 ---
 
+## 🙏 Credits
+
+This tool is based on:
+https://github.com/Octoberfest7/TeamsPhisher  
+
+All credits to the original project and its authors.
+
+---
+
 ## 🚀 Quick Start
 
 ```bash
@@ -69,6 +78,12 @@ export TEAMS_PASSWORD=password
 python3 vteams_userenum.py -e target@domain.com
 ```
 
+Or run interactively (recommended):
+
+```bash
+python3 vteams_userenum.py -e target@domain.com
+```
+
 ---
 
 ## 📦 Requirements
@@ -97,13 +112,14 @@ identity resolution and external user lookup across tenants.
 
 - Target tenant allows external Teams communication
 - User is discoverable via Teams APIs
-- Endpoints are not restricted or patched
+- Endpoints are accessible and unchanged
 
 ## ❌ Limitations
 
 - Rate limiting may occur
-- API behavior may change anytime
+- API behavior may change at any time
 - Some tenants restrict external enumeration
+- Additional protections may block results
 
 ---
 
