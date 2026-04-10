@@ -110,12 +110,15 @@ identity resolution and external user lookup across tenants.
 
 ## 📌 When it works
 
+- Valid **Microsoft 365 corporate account (work/school account with domain)**
+- Tenant with Teams enabled
 - Target tenant allows external Teams communication
 - User is discoverable via Teams APIs
 - Endpoints are accessible and unchanged
 
 ## ❌ Limitations
 
+- Does not work with personal Microsoft accounts (e.g. Outlook/Hotmail)
 - Rate limiting may occur
 - API behavior may change at any time
 - Some tenants restrict external enumeration
