@@ -1,6 +1,6 @@
 # Vteams
 
-User enumeration via Microsoft Teams endpoints.
+Microsoft Teams user enumeration via authentication-based API interaction.
 
 ![demo](./Demo.png)
 
@@ -14,6 +14,12 @@ User enumeration via Microsoft Teams endpoints.
 pip install -r requirements.txt
 ```
 
+### Single target (interactive credentials)
+```bash
+python3 vteams_userenum.py -e target@domain.com
+```
+
+### With credentials (CLI)
 ```bash
 python3 vteams_userenum.py \
   -u user@domain.com \
@@ -21,58 +27,97 @@ python3 vteams_userenum.py \
   -e target@domain.com
 ```
 
+### Environment variables (recommended)
 ```bash
-cat USERS_VALID_TEAMS.txt
+export TEAMS_USERNAME=user@domain.com
+export TEAMS_PASSWORD=password
+
+python3 vteams_userenum.py -e target@domain.com
 ```
 
 ---
 
-## ⚙️ Usage
+## Input Modes
 
-### Single target
+### Single email
 ```bash
-python3 vteams_userenum.py -u user@domain.com -p pass -e target@domain.com
+python3 vteams_userenum.py -e target@domain.com
 ```
 
-### List
+### Email list
 ```bash
-python3 vteams_userenum.py -u user@domain.com -p pass -l targets.txt
+python3 vteams_userenum.py -L targets.txt
 ```
 
 ---
 
-## 📦 Requirements
+## ⚙️ Options
+
+```bash
+-u, --username     Username/email for authentication
+-p, --password     Password (or use env vars TEAMS_PASSWORD)
+-e, --email        Single target email
+-L, --list         File with target emails (one per line)
+--log              Log file output
+--proxy            Proxy URL (e.g. socks5://127.0.0.1:9050)
+--no-verify-ssl    Disable SSL verification (not recommended)
+-v, --verbose      Show invalid/blocked users as well
+```
+
+---
+
+## Requirements
 
 - Python 3.8+
 - requests
 - msal
 - colorama
+- python-dotenv (optional)
 
 ---
 
 ## 🧠 How it works
 
-The script authenticates with a valid Microsoft 365 account and uses Teams endpoints to query external users.
+The tool authenticates against Microsoft 365 using MSAL and obtains access tokens for Teams APIs.
 
-Based on the API response, it is possible to distinguish between:
+It then queries external Teams endpoints and analyzes response behavior to determine whether a target user exists or is reachable.
+
+Differences in API responses allow classification of:
 - valid users
 - non-existent users
-
-This works because the service returns different responses for each case.
+- blocked or restricted accounts
 
 ---
 
 ## 📌 When it works
 
-- Valid Microsoft 365 account
-- Tenant with Teams enabled
-- Accessible endpoints (may change over time)
-- Organization allows external contact via Teams
+- Valid Microsoft 365 credentials
+- Teams enabled in tenant
+- External communication allowed (or partially allowed)
+- Accessible Microsoft endpoints
 
 May not work if:
 - rate limiting is enforced
-- API changes occur
-- additional tenant protections are in place
+- tenant has strict security policies
+- API behavior changes
+- MFA / conditional access blocks authentication flow
+
+---
+
+
+## Output
+
+Valid users are stored in:
+
+```bash
+USERS_VALID_TEAMS.txt
+```
+
+If logging is enabled:
+
+```bash
+--log results.log
+```
 
 ---
 
@@ -80,8 +125,8 @@ May not work if:
 
 This project is intended for:
 
-- Authorized research  
-- Testing in owned environments  
+- Authorized security research  
+- Testing in controlled environments  
 - Educational purposes  
 
 Unauthorized use may be illegal.
