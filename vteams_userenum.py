@@ -582,7 +582,7 @@ BANNER = Fore.CYAN + r"""
 
         [ Tenant Discovery | Teams Enumeration ]
 
-        Author : H0lmmes (Enhanced)
+        Author : H0lmmes
         Target : Microsoft 365 / Teams
         Mode   : External User Enumeration (Stealth)
 
